@@ -4,7 +4,6 @@ using Godot;
 using GodotAnalysers;
 
 [SceneReference("Main.tscn")]
-[Tool]
 public partial class Main
 {
     [Export]
@@ -12,10 +11,6 @@ public partial class Main
 
     [Export]
     public PackedScene DronesScene;
-
-    public const int PlayerNeutralId = 0;
-    public const int PlayerAllyId = 1;
-    public const int PlayerEnemyId = 2;
 
     private Random r = new Random();
 
@@ -35,19 +30,29 @@ public partial class Main
         for (var i = 0; i < 10; i++)
         {
             int dronesCount = r.Next(50);
-            Vector2 position = new Vector2(r.Next(480 - 2 * PlanetSize) + PlanetSize, r.Next(800 - 2 * PlanetSize) + PlanetSize);
+
+            Vector2 position;
+            bool found;
+            do
+            {
+                position = new Vector2(r.Next(480 - 2 * PlanetSize) + PlanetSize, r.Next(650 - 2 * PlanetSize) + PlanetSize);
+                found = this.GetTree().GetNodesInGroup(Groups.Planet)
+                        .Cast<Planet>()
+                        .Where(a => (a.Position - position).Length() < 100)
+                        .Any();
+            } while (found && i > 0);
             var isNeutral = i > 0 && r.Next(100) > 10;
 
             var planet = PlanetScene.Instance<Planet>();
             planet.Position = position;
             planet.DronesCount = dronesCount;
-            planet.PlayerId = isNeutral ? Main.PlayerNeutralId : Main.PlayerAllyId;
+            planet.PlayerId = isNeutral ? Constants.PlayerNeutralId : Constants.PlayerAllyId;
             this.AddChild(planet);
 
             var planet2 = PlanetScene.Instance<Planet>();
-            planet2.Position = new Vector2(480, 800) - position;
+            planet2.Position = new Vector2(480, 650) - position;
             planet2.DronesCount = dronesCount;
-            planet2.PlayerId = isNeutral ? Main.PlayerNeutralId : Main.PlayerEnemyId;
+            planet2.PlayerId = isNeutral ? Constants.PlayerNeutralId : Constants.PlayerEnemyId;
             this.AddChild(planet2);
         }
     }
@@ -68,18 +73,27 @@ public partial class Main
             {
                 draggingFrom = this.GetTree().GetNodesInGroup(Groups.Planet)
                     .Cast<Planet>()
-                    .Where(a => a.PlayerId == PlayerAllyId)
+                    .Where(a => a.PlayerId == Constants.PlayerAllyId)
                     .Where(a => a.GetRect().HasPoint(a.ToLocal(mouse.Position)))
                     .FirstOrDefault();
-
                 this.mouseDirectionLine.Points = new Vector2[]
                 {
                     draggingFrom?.Position ?? Vector2.Zero
                 };
             }
-            else
+            else if (draggingFrom != null)
             {
-                if (draggingFrom?.DronesCount > 0)
+                if (draggingFrom.GetRect().HasPoint(draggingFrom.ToLocal(mouse.Position)))
+                {
+                    if (this.planetDetails.Details != null)
+                    {
+                        this.planetDetails.Details.Selected = false;
+                    }
+                    this.planetDetails.Visible = true;
+                    this.planetDetails.Details = draggingFrom;
+                    this.planetDetails.Details.Selected = true;
+                }
+                else if (draggingFrom.DronesCount > 0)
                 {
                     var draggingTo = this.GetTree().GetNodesInGroup(Groups.Planet)
                         .Cast<Planet>()

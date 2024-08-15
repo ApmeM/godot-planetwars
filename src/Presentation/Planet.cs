@@ -35,6 +35,19 @@ public partial class Planet : IMinimapElement
         }
     }
 
+    private bool selected = false;
+    private bool selectedDirty = true;
+    [Export]
+    public bool Selected
+    {
+        get => selected;
+        set
+        {
+            this.selected = value;
+            this.selectedDirty = true;
+        }
+    }
+
     [Export]
     public float GrowSpeed = 1;
     public float GrowTimeout;
@@ -61,13 +74,18 @@ public partial class Planet : IMinimapElement
 
         if (this.playerIdDirty)
         {
-            this.planetNeutralSprite.Visible = this.playerId == Main.PlayerNeutralId;
-            this.planetEnemySprite.Visible = this.playerId == Main.PlayerEnemyId;
-            this.planetAllySprite.Visible = this.playerId == Main.PlayerAllyId;
+            this.planetNeutralSprite.Visible = this.playerId == Constants.PlayerNeutralId;
+            this.planetEnemySprite.Visible = this.playerId == Constants.PlayerEnemyId;
+            this.planetAllySprite.Visible = this.playerId == Constants.PlayerAllyId;
             this.playerIdDirty = false;
         }
 
-        if (dronesCount < DronesMaxCount && this.playerId != Main.PlayerNeutralId)
+        if (selectedDirty)
+        {
+            this.planetSelectedSprite.Visible = this.selected;
+        }
+
+        if (dronesCount < DronesMaxCount && this.playerId != Constants.PlayerNeutralId)
         {
             this.GrowTimeout += this.GrowSpeed * delta;
             if (this.GrowTimeout > 1)
