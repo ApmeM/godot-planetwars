@@ -1,35 +1,38 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Presentation/Main.cs" type="Script" id=1]
 [ext_resource path="res://gd-achievements/AchievementList.tscn" type="PackedScene" id=2]
 [ext_resource path="res://gd-minimap/Minimap.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Presentation/assets/Example_sprite.png" type="Texture" id=4]
+[ext_resource path="res://Presentation/assets/Arrow_sprite.png" type="Texture" id=4]
+[ext_resource path="res://Presentation/Planet.tscn" type="PackedScene" id=5]
 [ext_resource path="res://gd-achievements/AchievementNotifications.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Presentation/Drones.tscn" type="PackedScene" id=7]
 
-[node name="Main" type="Node"]
+[node name="Main" type="Node2D"]
 script = ExtResource( 1 )
+PlanetScene = ExtResource( 5 )
+DronesScene = ExtResource( 7 )
 
 [node name="HUD" type="CanvasLayer" parent="."]
 
 [node name="AchievementList" parent="HUD" instance=ExtResource( 2 )]
+visible = false
 
 [node name="Minimap" parent="HUD" instance=ExtResource( 3 )]
+visible = false
 margin_left = 13.0
 margin_top = 629.0
 margin_right = 163.0
 margin_bottom = 779.0
-CenterNodePath = NodePath("../../CenterNode")
 
 [node name="AchievementNotifications" parent="." instance=ExtResource( 6 )]
 
-[node name="Sprite" type="Sprite" parent="." groups=["MinimapElement"]]
-position = Vector2( 57, 476 )
-texture = ExtResource( 4 )
+[node name="CenterNode" parent="." instance=ExtResource( 5 )]
+position = Vector2( 240, 400 )
+DronesCount = 10
 
-[node name="Sprite2" type="Sprite" parent="." groups=["MinimapElement"]]
-position = Vector2( 441, 677 )
+[node name="MouseDirectionLine" type="Line2D" parent="."]
+points = PoolVector2Array( 0, 0, 10, 0 )
+default_color = Color( 0.431373, 1, 0.4, 1 )
 texture = ExtResource( 4 )
-
-[node name="CenterNode" type="Sprite" parent="." groups=["MinimapElement"]]
-position = Vector2( 254, 486 )
-texture = ExtResource( 4 )
+texture_mode = 1
