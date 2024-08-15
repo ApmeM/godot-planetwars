@@ -29,7 +29,6 @@ margin_bottom = 779.0
 
 [node name="CenterNode" parent="." instance=ExtResource( 5 )]
 position = Vector2( 240, 400 )
-DronesCount = 10
 
 [node name="MouseDirectionLine" type="Line2D" parent="."]
 points = PoolVector2Array( 0, 0, 10, 0 )

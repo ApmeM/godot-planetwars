@@ -13,6 +13,10 @@ public partial class Main
     [Export]
     public PackedScene DronesScene;
 
+    public const int PlayerNeutralId = 0;
+    public const int PlayerAllyId = 1;
+    public const int PlayerEnemyId = 2;
+
     private Random r = new Random();
 
     private const int PlanetSize = 50;
@@ -30,17 +34,20 @@ public partial class Main
 
         for (var i = 0; i < 10; i++)
         {
-            int dronesCount = r.Next(100);
+            int dronesCount = r.Next(50);
             Vector2 position = new Vector2(r.Next(480 - 2 * PlanetSize) + PlanetSize, r.Next(800 - 2 * PlanetSize) + PlanetSize);
+            var isNeutral = i > 0 && r.Next(100) > 10;
 
             var planet = PlanetScene.Instance<Planet>();
             planet.Position = position;
             planet.DronesCount = dronesCount;
+            planet.PlayerId = isNeutral ? Main.PlayerNeutralId : Main.PlayerAllyId;
             this.AddChild(planet);
 
             var planet2 = PlanetScene.Instance<Planet>();
             planet2.Position = new Vector2(480, 800) - position;
             planet2.DronesCount = dronesCount;
+            planet2.PlayerId = isNeutral ? Main.PlayerNeutralId : Main.PlayerEnemyId;
             this.AddChild(planet2);
         }
     }
@@ -61,6 +68,7 @@ public partial class Main
             {
                 draggingFrom = this.GetTree().GetNodesInGroup(Groups.Planet)
                     .Cast<Planet>()
+                    .Where(a => a.PlayerId == PlayerAllyId)
                     .Where(a => a.GetRect().HasPoint(a.ToLocal(mouse.Position)))
                     .FirstOrDefault();
 
@@ -84,6 +92,7 @@ public partial class Main
                         drones.DronesCount = draggingFrom.DronesCount;
                         drones.To = draggingTo;
                         drones.Position = draggingFrom.Position;
+                        drones.PlayerId = draggingFrom.PlayerId;
                         this.AddChild(drones);
 
                         draggingFrom.DronesCount = 0;
@@ -92,7 +101,6 @@ public partial class Main
                         tween.TweenProperty(drones, "position", draggingTo.Position, (draggingFrom.Position - draggingTo.Position).Length() / 50);
                         tween.TweenCallback(this, nameof(DronesArrived), new Godot.Collections.Array { drones });
                     }
-
                 }
 
                 draggingFrom = null;
@@ -105,7 +113,19 @@ public partial class Main
 
     private void DronesArrived(Drones drones)
     {
-        drones.To.DronesCount += drones.DronesCount;
+        if (drones.To.PlayerId == drones.PlayerId)
+        {
+            drones.To.DronesCount += drones.DronesCount;
+        }
+        else
+        {
+            if (drones.DronesCount > drones.To.DronesCount)
+            {
+                drones.To.PlayerId = drones.PlayerId;
+            }
+            drones.To.DronesCount = Math.Abs(drones.DronesCount - drones.To.DronesCount);
+        }
+
         drones.QueueFree();
     }
 
