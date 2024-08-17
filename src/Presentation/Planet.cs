@@ -3,7 +3,7 @@ using Godot;
 using GodotAnalysers;
 
 [SceneReference("Planet.tscn")]
-public partial class Planet : IMinimapElement
+public partial class Planet : IMinimapElement, ISelectable
 {
     public bool VisibleOnBorder => true;
 
@@ -60,6 +60,7 @@ public partial class Planet : IMinimapElement
 
         this.AddToGroup(Groups.MinimapElement);
         this.AddToGroup(Groups.Planet);
+        this.AddToGroup(Groups.Selectable);
     }
 
     public override void _Process(float delta)
@@ -96,5 +97,8 @@ public partial class Planet : IMinimapElement
         }
     }
 
-    public Rect2 GetRect() => this.planetNeutralSprite.GetRect();
+    public bool IsClicked(Vector2 position)
+    {
+        return this.planetNeutralSprite.GetRect().HasPoint(this.ToLocal(position));
+    }
 }

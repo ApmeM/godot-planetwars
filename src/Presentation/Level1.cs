@@ -16,7 +16,7 @@ namespace GodotTemplate.Levels
         {
             game.GameField.ClearChildren();
 
-            for (var i = 0; i < 10; i++)
+            for (var i = 0; i < 8; i++)
             {
                 int dronesCount = r.Next(50);
 

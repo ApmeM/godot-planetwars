@@ -46,19 +46,19 @@ public partial class Game
 
         if (mouse.ButtonIndex == (int)ButtonList.Left)
         {
-            if (mouse.Pressed && newConnection == null)
+            if (mouse.Pressed)
             {
-                var draggingFrom = this.GetTree().GetNodesInGroup(Groups.Planet)
-                    .Cast<Planet>()
+                var draggingFrom = this.GetTree().GetNodesInGroup(Groups.Selectable)
+                    .Cast<ISelectable>()
                     .Where(a => a.PlayerId == Constants.PlayerAllyId)
-                    .Where(a => a.GetRect().HasPoint(a.ToLocal(mouse.Position)))
+                    .Where(a => a.IsClicked(mouse.Position))
                     .FirstOrDefault();
 
-                if (draggingFrom != null)
+                if (draggingFrom != null && draggingFrom is Planet planet)
                 {
                     newConnection = PlanetConnectionScene.Instance<PlanetConnection>();
                     newConnection.DronesScene = this.DronesScene;
-                    newConnection.From = draggingFrom;
+                    newConnection.From = planet;
                     this.AddChild(newConnection);
                 }
 
@@ -92,7 +92,7 @@ public partial class Game
             var mousePosition = this.GetGlobalMousePosition();
             newConnection.To = this.GetTree().GetNodesInGroup(Groups.Planet)
                 .Cast<Planet>()
-                .Where(a => a.GetRect().HasPoint(a.ToLocal(mousePosition)))
+                .Where(a => a.IsClicked(mousePosition))
                 .FirstOrDefault();
         }
 

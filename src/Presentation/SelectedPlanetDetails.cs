@@ -5,9 +5,9 @@ using GodotTemplate.Presentation.Utils;
 [SceneReference("SelectedPlanetDetails.tscn")]
 public partial class SelectedPlanetDetails
 {
-    private Planet details;
+    private ISelectable details;
 
-    public Planet Details
+    public ISelectable Details
     {
         get => details;
         set
@@ -43,23 +43,27 @@ public partial class SelectedPlanetDetails
 
         if (this.Details != null)
         {
-            this.dronesCountValueLabel.Text = this.Details.DronesCount.ToString();
-            this.growSpeedValueLabel.Text = this.Details.GrowSpeed.ToString();
-            this.growSpeedIncreaseButton.Disabled = this.Details.DronesCount < this.Details.GrowSpeed * 10;
+            if (this.Details is Planet planet)
+            {
+                this.dronesCountValueLabel.Text = planet.DronesCount.ToString();
+                this.growSpeedValueLabel.Text = planet.GrowSpeed.ToString();
+                this.growSpeedIncreaseButton.Disabled = planet.DronesCount < planet.GrowSpeed * 10;
+            }
         }
     }
 
     private void SpeedUp()
     {
-        if (this.Details == null)
+        var planet = this.Details as Planet;
+        if (planet == null)
         {
             return;
         }
 
-        if (this.Details.DronesCount >= this.Details.GrowSpeed * 10)
+        if (planet.DronesCount >= planet.GrowSpeed * 10)
         {
-            this.Details.DronesCount -= (int)(this.Details.GrowSpeed * 10);
-            this.Details.GrowSpeed++;
+            planet.DronesCount -= (int)(planet.GrowSpeed * 10);
+            planet.GrowSpeed++;
         }
     }
 }
