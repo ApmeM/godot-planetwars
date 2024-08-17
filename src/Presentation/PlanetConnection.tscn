@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Presentation/assets/Arrow_sprite.png" type="Texture" id=1]
 [ext_resource path="res://Presentation/PlanetConnection.cs" type="Script" id=2]
+[ext_resource path="res://Presentation/assets/PlanetConnection_selected_sprite.png" type="Texture" id=3]
 
 [node name="MouseDirectionLine" type="Line2D"]
 points = PoolVector2Array( 0, 0, 10, 0 )
@@ -9,3 +10,7 @@ default_color = Color( 0.431373, 1, 0.4, 1 )
 texture = ExtResource( 1 )
 texture_mode = 1
 script = ExtResource( 2 )
+
+[node name="PlanetConnectionSelectedSprite" type="Sprite" parent="."]
+scale = Vector2( 0.05, 0.1 )
+texture = ExtResource( 3 )

@@ -57,6 +57,7 @@ public partial class Game
                 if (draggingFrom != null && draggingFrom is Planet planet)
                 {
                     newConnection = PlanetConnectionScene.Instance<PlanetConnection>();
+                    newConnection.PlayerId = planet.PlayerId;
                     newConnection.DronesScene = this.DronesScene;
                     newConnection.From = planet;
                     this.AddChild(newConnection);
