@@ -46,7 +46,24 @@ public partial class Game
 
         if (mouse.ButtonIndex == (int)ButtonList.Left)
         {
-            if (mouse.Pressed)
+            if (mouse.Doubleclick)
+            {
+                var connection = this.GetTree().GetNodesInGroup(Groups.Selectable)
+                    .OfType<PlanetConnection>()
+                    .Where(a => a.PlayerId == Constants.PlayerAllyId)
+                    .Where(a => a.IsClicked(mouse.Position))
+                    .FirstOrDefault();
+                if (connection != null)
+                {
+                    if (planetDetails.Details == connection)
+                    {
+                        planetDetails.Details = null;
+                    }
+
+                    connection.QueueFree();
+                }
+            }
+            else if (mouse.Pressed)
             {
                 var draggingFrom = this.GetTree().GetNodesInGroup(Groups.Selectable)
                     .Cast<ISelectable>()

@@ -20,18 +20,19 @@ public partial class SelectedPlanetDetails
 
             details = value;
 
+
+            this.Visible = details != null;
+            this.planetContainer.Visible = details is Planet;
+            this.connectionContainer.Visible = details is PlanetConnection;
+
             if (details != null)
             {
                 details.Selected = true;
-
-                this.planetContainer.Visible = details is Planet;
-                this.connectionContainer.Visible = details is PlanetConnection;
 
                 this.growSpeedIncreaseButton.Visible = details.PlayerId == Constants.PlayerAllyId;
                 this.deleteConnectionButton.Visible = details.PlayerId == Constants.PlayerAllyId;
             }
 
-            this.Visible = details != null;
         }
     }
 
