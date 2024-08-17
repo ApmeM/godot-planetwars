@@ -58,13 +58,13 @@ public partial class Drones
         }
     }
 
-    public void Go(Planet from, Planet to)
+    public void Go(Planet from, Planet to, int dronesToSend)
     {
-        this.DronesCount = from.DronesCount;
+        this.DronesCount = dronesToSend;
         this.To = to;
         this.Position = from.Position;
         this.PlayerId = from.PlayerId;
-        from.DronesCount = 0;
+        from.DronesCount -= dronesToSend;
 
         var tween = this.CreateTween();
         tween.TweenProperty(this, "position", To.Position, (from.Position - to.Position).Length() / 50);

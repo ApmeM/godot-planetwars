@@ -54,9 +54,39 @@ text = "Up"
 margin_right = 480.0
 margin_bottom = 800.0
 
-[node name="DeleteConnectionContainer" type="HBoxContainer" parent="ConnectionContainer"]
+[node name="DronesToSendContainer" type="HBoxContainer" parent="ConnectionContainer"]
 margin_right = 480.0
 margin_bottom = 20.0
+
+[node name="DronesToSendCaptionLabel" type="Label" parent="ConnectionContainer/DronesToSendContainer"]
+margin_top = 3.0
+margin_right = 157.0
+margin_bottom = 17.0
+text = "Drones to send at once: "
+
+[node name="DronesToSendDecreaseButton" type="Button" parent="ConnectionContainer/DronesToSendContainer"]
+margin_left = 161.0
+margin_right = 209.0
+margin_bottom = 20.0
+text = "Down"
+
+[node name="DronesToSendValueLabel" type="Label" parent="ConnectionContainer/DronesToSendContainer"]
+margin_left = 213.0
+margin_top = 3.0
+margin_right = 221.0
+margin_bottom = 17.0
+text = "0"
+
+[node name="DronesToSendIncreaseButton" type="Button" parent="ConnectionContainer/DronesToSendContainer"]
+margin_left = 225.0
+margin_right = 255.0
+margin_bottom = 20.0
+text = "Up"
+
+[node name="DeleteConnectionContainer" type="HBoxContainer" parent="ConnectionContainer"]
+margin_top = 24.0
+margin_right = 480.0
+margin_bottom = 44.0
 
 [node name="DeleteConnectionCaptionLabel" type="Label" parent="ConnectionContainer/DeleteConnectionContainer"]
 margin_top = 3.0

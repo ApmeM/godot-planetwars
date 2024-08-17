@@ -42,6 +42,9 @@ public partial class SelectedPlanetDetails
 
         this.growSpeedIncreaseButton.Connect(CommonSignals.Pressed, this, nameof(SpeedUp));
         this.deleteConnectionButton.Connect(CommonSignals.Pressed, this, nameof(DeleteConnection));
+        this.dronesToSendDecreaseButton.Connect(CommonSignals.Pressed, this, nameof(ChangeDronesToSend), new Godot.Collections.Array { -5 });
+        this.dronesToSendIncreaseButton.Connect(CommonSignals.Pressed, this, nameof(ChangeDronesToSend), new Godot.Collections.Array { 5 });
+
     }
 
     public override void _Process(float delta)
@@ -55,6 +58,11 @@ public partial class SelectedPlanetDetails
                 this.dronesCountValueLabel.Text = planet.DronesCount.ToString();
                 this.growSpeedValueLabel.Text = planet.GrowSpeed.ToString();
                 this.growSpeedIncreaseButton.Disabled = planet.DronesCount < planet.GrowSpeed * 10;
+            }
+
+            if (this.Details is PlanetConnection connection)
+            {
+                this.dronesToSendValueLabel.Text = connection.DronesToSend.ToString();
             }
         }
     }
@@ -84,5 +92,21 @@ public partial class SelectedPlanetDetails
 
         connection.QueueFree();
         this.Details = null;
+    }
+
+    private void ChangeDronesToSend(int value)
+    {
+        var connection = this.Details as PlanetConnection;
+        if (connection == null)
+        {
+            return;
+        }
+
+        if (connection.DronesToSend + value <= 0 || connection.DronesToSend + value > 50)
+        {
+            return;
+        }
+
+        connection.DronesToSend += value;
     }
 }

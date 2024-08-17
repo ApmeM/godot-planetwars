@@ -32,6 +32,8 @@ public partial class PlanetConnection : ISelectable
         }
     }
 
+    public int DronesToSend { get; set; } = 5;
+
     public bool Active { get; set; }
 
     public int PlayerId { get; set; }
@@ -65,7 +67,7 @@ public partial class PlanetConnection : ISelectable
         if (selectedDirty)
         {
             this.planetConnectionSelectedSprite.Visible = this.selected;
-            this.planetConnectionSelectedSprite.Position = (From.Position + To.Position) / 2 + Vector2.Up * 20 ;
+            this.planetConnectionSelectedSprite.Position = (From.Position + To.Position) / 2 + Vector2.Up * 20;
         }
 
         if (pointsDirty)
@@ -89,11 +91,11 @@ public partial class PlanetConnection : ISelectable
 
         if (Active)
         {
-            if (From.DronesCount > 0)
+            if (From.DronesCount > DronesToSend)
             {
                 var drones = this.DronesScene.Instance<Drones>();
                 this.GetParent<Game>().AddChild(drones);
-                drones.Go(From, To);
+                drones.Go(From, To, From.DronesCount);
             }
         }
     }
