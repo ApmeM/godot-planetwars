@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using Godot;
 using GodotAnalysers;
@@ -12,6 +11,9 @@ public partial class Game
 
     [Export]
     public PackedScene DronesScene;
+
+    [Export]
+    public PackedScene PlanetConnectionScene;
 
     [Signal]
     public delegate void EndGame(int score);
@@ -30,11 +32,11 @@ public partial class Game
     }
 
     private bool isDragging = false;
-    private Planet draggingFrom = null;
+    private PlanetConnection newConnection = null;
 
     public Node2D GameField => this.gameField;
 
-    public override void _Input(InputEvent @event)
+    public override void _UnhandledInput(InputEvent @event)
     {
         base._Input(@event);
         if (!(@event is InputEventMouseButton mouse))
@@ -44,78 +46,36 @@ public partial class Game
 
         if (mouse.ButtonIndex == (int)ButtonList.Left)
         {
-            if (mouse.Pressed)
+            if (mouse.Pressed && newConnection == null)
             {
-                draggingFrom = this.GetTree().GetNodesInGroup(Groups.Planet)
+                var draggingFrom = this.GetTree().GetNodesInGroup(Groups.Planet)
                     .Cast<Planet>()
                     .Where(a => a.PlayerId == Constants.PlayerAllyId)
                     .Where(a => a.GetRect().HasPoint(a.ToLocal(mouse.Position)))
                     .FirstOrDefault();
-                this.mouseDirectionLine.Points = new Vector2[]
-                {
-                    draggingFrom?.Position ?? Vector2.Zero
-                };
-            }
-            else if (draggingFrom != null)
-            {
-                if (draggingFrom.GetRect().HasPoint(draggingFrom.ToLocal(mouse.Position)))
-                {
-                    if (this.planetDetails.Details != null)
-                    {
-                        this.planetDetails.Details.Selected = false;
-                    }
-                    this.planetDetails.Visible = true;
-                    this.planetDetails.Details = draggingFrom;
-                    this.planetDetails.Details.Selected = true;
-                }
-                else if (draggingFrom.DronesCount > 0)
-                {
-                    var draggingTo = this.GetTree().GetNodesInGroup(Groups.Planet)
-                        .Cast<Planet>()
-                        .Where(a => a.GetRect().HasPoint(a.ToLocal(mouse.Position)))
-                        .FirstOrDefault();
 
-                    if (draggingTo != null)
-                    {
-                        var drones = this.DronesScene.Instance<Drones>();
-                        drones.DronesCount = draggingFrom.DronesCount;
-                        drones.To = draggingTo;
-                        drones.Position = draggingFrom.Position;
-                        drones.PlayerId = draggingFrom.PlayerId;
-                        this.AddChild(drones);
-
-                        draggingFrom.DronesCount = 0;
-
-                        var tween = this.CreateTween();
-                        tween.TweenProperty(drones, "position", draggingTo.Position, (draggingFrom.Position - draggingTo.Position).Length() / 50);
-                        tween.TweenCallback(this, nameof(DronesArrived), new Godot.Collections.Array { drones });
-                    }
+                if (draggingFrom != null)
+                {
+                    newConnection = PlanetConnectionScene.Instance<PlanetConnection>();
+                    newConnection.DronesScene = this.DronesScene;
+                    newConnection.From = draggingFrom;
+                    this.AddChild(newConnection);
                 }
 
-                draggingFrom = null;
+                this.planetDetails.Details = draggingFrom;
             }
-
-            isDragging = draggingFrom != null;
-            this.mouseDirectionLine.Visible = isDragging;
-        }
-    }
-
-    private void DronesArrived(Drones drones)
-    {
-        if (drones.To.PlayerId == drones.PlayerId)
-        {
-            drones.To.DronesCount += drones.DronesCount;
-        }
-        else
-        {
-            if (drones.DronesCount > drones.To.DronesCount)
+            else if (newConnection != null)
             {
-                drones.To.PlayerId = drones.PlayerId;
+                newConnection.Active = true;
+                if (newConnection.To == null || newConnection.To == newConnection.From)
+                {
+                    newConnection.QueueFree();
+                }
+                newConnection = null;
             }
-            drones.To.DronesCount = Math.Abs(drones.DronesCount - drones.To.DronesCount);
-        }
 
-        drones.QueueFree();
+            isDragging = newConnection != null;
+        }
     }
 
     public override void _Process(float delta)
@@ -130,16 +90,10 @@ public partial class Game
         if (isDragging)
         {
             var mousePosition = this.GetGlobalMousePosition();
-            var draggingTo = this.GetTree().GetNodesInGroup(Groups.Planet)
+            newConnection.To = this.GetTree().GetNodesInGroup(Groups.Planet)
                 .Cast<Planet>()
                 .Where(a => a.GetRect().HasPoint(a.ToLocal(mousePosition)))
                 .FirstOrDefault();
-
-            this.mouseDirectionLine.Points = new Vector2[]
-            {
-                this.mouseDirectionLine.Points[0],
-                draggingTo?.Position ?? this.GetGlobalMousePosition()
-            };
         }
 
         if (!this.GetTree().GetNodesInGroup(Groups.Planet)

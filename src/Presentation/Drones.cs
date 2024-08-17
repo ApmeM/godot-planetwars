@@ -1,3 +1,4 @@
+using System;
 using Godot;
 using GodotAnalysers;
 
@@ -55,5 +56,37 @@ public partial class Drones
             this.nodeAlly.Visible = this.playerId == Constants.PlayerAllyId;
             this.playerIdDirty = false;
         }
+    }
+
+    public void Go(Planet from, Planet to)
+    {
+        this.DronesCount = from.DronesCount;
+        this.To = to;
+        this.Position = from.Position;
+        this.PlayerId = from.PlayerId;
+        from.DronesCount = 0;
+
+        var tween = this.CreateTween();
+        tween.TweenProperty(this, "position", To.Position, (from.Position - to.Position).Length() / 50);
+        tween.TweenCallback(this, nameof(DronesArrived));
+    }
+
+    private void DronesArrived()
+    {
+        var drones = this;
+        if (drones.To.PlayerId == drones.PlayerId)
+        {
+            drones.To.DronesCount += drones.DronesCount;
+        }
+        else
+        {
+            if (drones.DronesCount > drones.To.DronesCount)
+            {
+                drones.To.PlayerId = drones.PlayerId;
+            }
+            drones.To.DronesCount = Math.Abs(drones.DronesCount - drones.To.DronesCount);
+        }
+
+        drones.QueueFree();
     }
 }

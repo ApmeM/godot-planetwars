@@ -1,8 +1,8 @@
 [gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Presentation/Game.cs" type="Script" id=1]
+[ext_resource path="res://Presentation/PlanetConnection.tscn" type="PackedScene" id=2]
 [ext_resource path="res://gd-minimap/Minimap.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Presentation/assets/Arrow_sprite.png" type="Texture" id=4]
 [ext_resource path="res://Presentation/Planet.tscn" type="PackedScene" id=5]
 [ext_resource path="res://gd-achievements/AchievementNotifications.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Presentation/Drones.tscn" type="PackedScene" id=7]
@@ -13,6 +13,7 @@
 script = ExtResource( 1 )
 PlanetScene = ExtResource( 5 )
 DronesScene = ExtResource( 7 )
+PlanetConnectionScene = ExtResource( 2 )
 
 [node name="HUD" type="CanvasLayer" parent="."]
 visible = false
@@ -20,11 +21,12 @@ visible = false
 [node name="VBoxContainer" type="VBoxContainer" parent="HUD"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-input_pass_on_modal_close_click = false
+mouse_filter = 2
 
 [node name="Control" type="Control" parent="HUD/VBoxContainer"]
 margin_right = 480.0
 margin_bottom = 646.0
+mouse_filter = 2
 size_flags_vertical = 3
 
 [node name="MarginContainer" type="MarginContainer" parent="HUD/VBoxContainer"]
@@ -54,12 +56,6 @@ margin_right = 284.0
 margin_bottom = 150.0
 
 [node name="AchievementNotifications" parent="." instance=ExtResource( 6 )]
-
-[node name="MouseDirectionLine" type="Line2D" parent="."]
-points = PoolVector2Array( 0, 0, 10, 0 )
-default_color = Color( 0.431373, 1, 0.4, 1 )
-texture = ExtResource( 4 )
-texture_mode = 1
 
 [node name="GameField" type="Node2D" parent="."]
 

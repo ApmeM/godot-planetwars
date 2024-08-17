@@ -5,7 +5,29 @@ using GodotTemplate.Presentation.Utils;
 [SceneReference("SelectedPlanetDetails.tscn")]
 public partial class SelectedPlanetDetails
 {
-    public Planet Details { get; set; }
+    private Planet details;
+
+    public Planet Details
+    {
+        get => details;
+        set
+        {
+            if (details != null)
+            {
+                details.Selected = false;
+            }
+
+            details = value;
+
+            if (details != null)
+            {
+                details.Selected = true;
+                this.growSpeedIncreaseButton.Visible = details.PlayerId == Constants.PlayerAllyId;
+            }
+
+            this.Visible = details != null;
+        }
+    }
 
     public override void _Ready()
     {
