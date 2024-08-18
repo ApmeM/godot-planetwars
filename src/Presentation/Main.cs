@@ -18,7 +18,7 @@ public partial class Main
         // this.di.localAchievementRepository.ResetAchievements();
 
         this.achievementsButton.Connect(CommonSignals.Pressed, this, nameof(AchievementsButtonPressed));
-        this.levelSelector.SetLevels(new List<ILevelToSelect> { new Level1() });
+        this.levelSelector.SetLevels(new List<ILevelToSelect> { new Level1(), new Level2() });
         this.levelSelector.Connect(nameof(LevelSelector.StartGame), this, nameof(LevelSelected));
         this.game.Connect(nameof(Game.EndGame), this, nameof(EndGame));
     }

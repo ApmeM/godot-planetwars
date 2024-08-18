@@ -40,13 +40,13 @@ public partial class PlayerEasy
             .Select(a => a.From)
             .ToHashSet();
 
-        foreach (var conn in connections)
-        {
-            if (conn.From.PlayerId == conn.To.PlayerId)
-            {
-                conn.QueueFree();
-            }
-        }
+        // foreach (var conn in connections)
+        // {
+        //     if (conn.From.PlayerId == conn.To.PlayerId)
+        //     {
+        //         conn.QueueFree();
+        //     }
+        // }
 
         foreach (var planet in myPlanets)
         {

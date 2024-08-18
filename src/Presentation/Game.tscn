@@ -56,7 +56,7 @@ anchor_bottom = 0.0
 margin_left = 154.0
 margin_right = 284.0
 margin_bottom = 150.0
-PlayerId = 1
+PlayerId = 2
 
 [node name="AchievementNotifications" parent="." instance=ExtResource( 6 )]
 
@@ -65,10 +65,14 @@ PlayerId = 1
 [node name="CenterNode1" parent="GameField" instance=ExtResource( 5 )]
 position = Vector2( 240, 400 )
 
-[node name="PlayerEasy" parent="." instance=ExtResource( 4 )]
-PlayerId = 2
-Field = NodePath("../GameField")
-
 [node name="PlayerMouse" parent="." instance=ExtResource( 10 )]
 visible = false
+PlayerId = 2
+
+[node name="PlayerEasy" parent="." instance=ExtResource( 4 )]
 PlayerId = 1
+Field = NodePath("../GameField")
+
+[node name="PlayerEasy2" parent="." instance=ExtResource( 4 )]
+PlayerId = 3
+Field = NodePath("../GameField")

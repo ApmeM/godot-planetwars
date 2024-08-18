@@ -54,6 +54,7 @@ public partial class Drones
             this.nodeNeutral.Visible = this.playerId == Constants.PlayerNeutralId;
             this.nodePlayer1.Visible = this.playerId == 1;
             this.nodePlayer2.Visible = this.playerId == 2;
+            this.nodePlayer3.Visible = this.playerId == 3;
             this.playerIdDirty = false;
         }
     }

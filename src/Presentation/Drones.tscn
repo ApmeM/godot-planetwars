@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Presentation/assets/Drone_neutral_sprite.png" type="Texture" id=1]
 [ext_resource path="res://Presentation/Drones.cs" type="Script" id=2]
-[ext_resource path="res://Presentation/assets/Drone_enemy_sprite.png" type="Texture" id=3]
-[ext_resource path="res://Presentation/assets/Drone_ally_sprite.png" type="Texture" id=4]
+[ext_resource path="res://Presentation/assets/Drone_player1_sprite.png" type="Texture" id=3]
+[ext_resource path="res://Presentation/assets/Drone_player2_sprite.png" type="Texture" id=4]
+[ext_resource path="res://Presentation/assets/Drone_player3_sprite.png" type="Texture" id=5]
 
 [node name="Planet" type="Node2D"]
 script = ExtResource( 2 )
@@ -69,3 +70,20 @@ margin_bottom = 23.0
 text = "0"
 align = 1
 valign = 1
+
+[node name="NodePlayer3" type="Node2D" parent="."]
+
+[node name="DronePlayer31" type="Sprite" parent="NodePlayer3"]
+position = Vector2( -5, -2 )
+scale = Vector2( 0.3, 0.3 )
+texture = ExtResource( 5 )
+
+[node name="DronePlayer32" type="Sprite" parent="NodePlayer3"]
+position = Vector2( 6, 6 )
+scale = Vector2( 0.3, 0.3 )
+texture = ExtResource( 5 )
+
+[node name="DronePlayer33" type="Sprite" parent="NodePlayer3"]
+position = Vector2( 6, -8 )
+scale = Vector2( 0.3, 0.3 )
+texture = ExtResource( 5 )

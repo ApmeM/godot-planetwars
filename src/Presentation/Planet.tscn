@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Presentation/assets/Planet_neutral_sprite.png" type="Texture" id=1]
 [ext_resource path="res://Presentation/Planet.cs" type="Script" id=2]
-[ext_resource path="res://Presentation/assets/Planet_ally_sprite.png" type="Texture" id=3]
-[ext_resource path="res://Presentation/assets/Planet_enemy_sprite.png" type="Texture" id=4]
+[ext_resource path="res://Presentation/assets/Planet_player2_sprite.png" type="Texture" id=3]
+[ext_resource path="res://Presentation/assets/Planet_player1_sprite.png" type="Texture" id=4]
 [ext_resource path="res://Presentation/assets/Planet_selected_sprite.png" type="Texture" id=5]
+[ext_resource path="res://Presentation/assets/Planet_player3_sprite.png" type="Texture" id=6]
 
 [node name="Planet" type="Node2D"]
 script = ExtResource( 2 )
@@ -19,6 +20,10 @@ texture = ExtResource( 4 )
 [node name="PlanetPlayer2Sprite" type="Sprite" parent="."]
 visible = false
 texture = ExtResource( 3 )
+
+[node name="PlanetPlayer3Sprite" type="Sprite" parent="."]
+visible = false
+texture = ExtResource( 6 )
 
 [node name="DronesCountLabel" type="Label" parent="."]
 margin_left = -23.0
