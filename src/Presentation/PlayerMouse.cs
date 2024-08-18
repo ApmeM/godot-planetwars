@@ -13,7 +13,7 @@ public partial class PlayerMouse
     }
 
     [Export]
-    public int PlayerId { get; set; } = Constants.PlayerAllyId;
+    public int PlayerId { get; set; }
 
     private Planet From;
     private Planet To;

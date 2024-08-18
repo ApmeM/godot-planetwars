@@ -12,11 +12,11 @@ script = ExtResource( 2 )
 [node name="PlanetNeutralSprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
 
-[node name="PlanetEnemySprite" type="Sprite" parent="."]
+[node name="PlanetPlayer1Sprite" type="Sprite" parent="."]
 visible = false
 texture = ExtResource( 4 )
 
-[node name="PlanetAllySprite" type="Sprite" parent="."]
+[node name="PlanetPlayer2Sprite" type="Sprite" parent="."]
 visible = false
 texture = ExtResource( 3 )
 

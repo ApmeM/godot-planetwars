@@ -35,13 +35,13 @@ namespace GodotTemplate.Levels
                 var planet = game.PlanetScene.Instance<Planet>();
                 planet.Position = position;
                 planet.DronesCount = dronesCount;
-                planet.PlayerId = isNeutral ? Constants.PlayerNeutralId : Constants.PlayerAllyId;
+                planet.PlayerId = isNeutral ? Constants.PlayerNeutralId : 1;
                 game.GameField.AddChild(planet);
 
                 var planet2 = game.PlanetScene.Instance<Planet>();
                 planet2.Position = new Vector2(480, 650) - position;
                 planet2.DronesCount = dronesCount;
-                planet2.PlayerId = isNeutral ? Constants.PlayerNeutralId : Constants.PlayerEnemyId;
+                planet2.PlayerId = isNeutral ? Constants.PlayerNeutralId : 2;
                 game.GameField.AddChild(planet2);
             }
         }

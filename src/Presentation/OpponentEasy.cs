@@ -11,7 +11,7 @@ public class OpponentEasy : Node
     public float ThinkDelay { get; set; }
 
     [Export]
-    public int PlayerId { get; set; } = Constants.PlayerEnemyId;
+    public int PlayerId { get; set; }
 
     public float CurrentThinkDelay;
 

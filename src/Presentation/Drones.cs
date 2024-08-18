@@ -52,8 +52,8 @@ public partial class Drones
         if (this.playerIdDirty)
         {
             this.nodeNeutral.Visible = this.playerId == Constants.PlayerNeutralId;
-            this.nodeEnemy.Visible = this.playerId == Constants.PlayerEnemyId;
-            this.nodeAlly.Visible = this.playerId == Constants.PlayerAllyId;
+            this.nodePlayer1.Visible = this.playerId == 1;
+            this.nodePlayer2.Visible = this.playerId == 2;
             this.playerIdDirty = false;
         }
     }

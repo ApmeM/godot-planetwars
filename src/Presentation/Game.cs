@@ -59,21 +59,15 @@ public partial class Game
             return;
         }
 
-        if (!this.GetTree().GetNodesInGroup(Groups.Planet)
+        var playersInTheGame = this.GetTree().GetNodesInGroup(Groups.Planet)
                 .Cast<Planet>()
-                .Where(a => a.PlayerId == Constants.PlayerAllyId)
-                .Any())
-        {
-            EmitSignal(nameof(EndGame), 0);
-            return;
-        }
+                .Select(a => a.PlayerId)
+                .Where(a => a != Constants.PlayerNeutralId)
+                .ToHashSet();
 
-        if (!this.GetTree().GetNodesInGroup(Groups.Planet)
-                .Cast<Planet>()
-                .Where(a => a.PlayerId == Constants.PlayerEnemyId)
-                .Any())
+        if (playersInTheGame.Count == 1)
         {
-            EmitSignal(nameof(EndGame), 3);
+            EmitSignal(nameof(EndGame), playersInTheGame.First());
             this.achievementNotifications.UnlockAchievement("MyFirstAchievement");
             return;
         }

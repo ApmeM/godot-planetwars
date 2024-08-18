@@ -78,8 +78,8 @@ public partial class Planet : IMinimapElement, ISelectable
         if (this.playerIdDirty)
         {
             this.planetNeutralSprite.Visible = this.playerId == Constants.PlayerNeutralId;
-            this.planetEnemySprite.Visible = this.playerId == Constants.PlayerEnemyId;
-            this.planetAllySprite.Visible = this.playerId == Constants.PlayerAllyId;
+            this.planetPlayer1Sprite.Visible = this.playerId == 1;
+            this.planetPlayer2Sprite.Visible = this.playerId == 2;
             this.playerIdDirty = false;
         }
 

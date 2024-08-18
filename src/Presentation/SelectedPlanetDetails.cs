@@ -6,6 +6,9 @@ using System;
 [SceneReference("SelectedPlanetDetails.tscn")]
 public partial class SelectedPlanetDetails
 {
+    [Export]
+    public int PlayerId { get; set; }
+
     private ISelectable details;
 
     public ISelectable Details
@@ -29,8 +32,8 @@ public partial class SelectedPlanetDetails
             {
                 details.Selected = true;
 
-                this.growSpeedIncreaseButton.Visible = details.PlayerId == Constants.PlayerAllyId;
-                this.deleteConnectionButton.Visible = details.PlayerId == Constants.PlayerAllyId;
+                this.growSpeedIncreaseButton.Visible = details.PlayerId == this.PlayerId;
+                this.deleteConnectionButton.Visible = details.PlayerId == this.PlayerId;
             }
 
         }
