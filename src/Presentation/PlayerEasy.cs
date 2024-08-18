@@ -1,8 +1,10 @@
 using Godot;
+using GodotAnalysers;
 using System;
 using System.Linq;
 
-public class OpponentEasy : Node
+[SceneReference("PlayerEasy.tscn")]
+public partial class PlayerEasy
 {
     [Export]
     public NodePath Field;
