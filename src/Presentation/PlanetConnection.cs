@@ -38,7 +38,6 @@ public partial class PlanetConnection : ISelectable
 
     public int PlayerId { get; set; }
 
-
     private bool selected = false;
     private bool selectedDirty = false;
     [Export]
@@ -75,19 +74,10 @@ public partial class PlanetConnection : ISelectable
         {
             this.Points = new Vector2[]
             {
-                From?.Position ?? Vector2.Zero,
-                To?.Position ?? Vector2.Zero
+                From.Position,
+                To.Position
             };
             pointsDirty = false;
-        }
-
-        if (To == null)
-        {
-            this.Points = new Vector2[]
-            {
-                From?.Position ?? Vector2.Zero,
-                this.GetGlobalMousePosition()
-            };
         }
 
         if (From.PlayerId != this.PlayerId)
