@@ -52,19 +52,27 @@ public partial class SelectedPlanetDetails
     {
         base._Process(delta);
 
-        if (this.Details != null)
+        if (this.Details == null)
         {
-            if (this.Details is Planet planet)
-            {
-                this.dronesCountValueLabel.Text = planet.DronesCount.ToString();
-                this.growSpeedValueLabel.Text = planet.GrowSpeed.ToString();
-                this.growSpeedIncreaseButton.Disabled = planet.DronesCount < planet.GrowSpeed * 10;
-            }
+            return;
+        }
 
-            if (this.Details is PlanetConnection connection)
-            {
-                this.dronesToSendValueLabel.Text = connection.DronesToSend.ToString();
-            }
+        if (!IsInstanceValid((Godot.Object)Details))
+        {
+            this.Details = null;
+            return;
+        }
+
+        if (this.Details is Planet planet)
+        {
+            this.dronesCountValueLabel.Text = planet.DronesCount.ToString();
+            this.growSpeedValueLabel.Text = planet.GrowSpeed.ToString();
+            this.growSpeedIncreaseButton.Disabled = planet.DronesCount < planet.GrowSpeed * 10;
+        }
+
+        if (this.Details is PlanetConnection connection)
+        {
+            this.dronesToSendValueLabel.Text = connection.DronesToSend.ToString();
         }
     }
 
@@ -92,7 +100,6 @@ public partial class SelectedPlanetDetails
         }
 
         connection.QueueFree();
-        this.Details = null;
     }
 
     private void ChangeDronesToSend(int value)

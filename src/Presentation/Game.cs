@@ -55,11 +55,6 @@ public partial class Game
                     .FirstOrDefault();
                 if (connection != null)
                 {
-                    if (planetDetails.Details == connection)
-                    {
-                        planetDetails.Details = null;
-                    }
-
                     connection.QueueFree();
                 }
             }
