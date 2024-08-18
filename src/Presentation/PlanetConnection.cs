@@ -58,6 +58,7 @@ public partial class PlanetConnection : ISelectable
         this.FillMembers();
 
         this.AddToGroup(Groups.Selectable);
+        this.AddToGroup(Groups.PlanetConnection);
     }
 
     public override void _Process(float delta)
@@ -89,12 +90,18 @@ public partial class PlanetConnection : ISelectable
             };
         }
 
+        if (From.PlayerId != this.PlayerId)
+        {
+            this.QueueFree();
+            return;
+        }
+
         if (Active)
         {
             if (From.DronesCount > DronesToSend)
             {
                 var drones = this.DronesScene.Instance<Drones>();
-                this.GetParent<Game>().AddChild(drones);
+                this.GetParent().AddChild(drones);
                 drones.Go(From, To, From.DronesCount);
             }
         }

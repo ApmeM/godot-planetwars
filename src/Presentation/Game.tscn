@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Presentation/Game.cs" type="Script" id=1]
 [ext_resource path="res://Presentation/PlanetConnection.tscn" type="PackedScene" id=2]
 [ext_resource path="res://gd-minimap/Minimap.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Presentation/OpponentEasy.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Presentation/Planet.tscn" type="PackedScene" id=5]
 [ext_resource path="res://gd-achievements/AchievementNotifications.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Presentation/Drones.tscn" type="PackedScene" id=7]
@@ -61,3 +62,6 @@ margin_bottom = 150.0
 
 [node name="CenterNode1" parent="GameField" instance=ExtResource( 5 )]
 position = Vector2( 240, 400 )
+
+[node name="OpponentEasy" parent="." instance=ExtResource( 4 )]
+Field = NodePath("../GameField")

@@ -25,7 +25,7 @@ namespace GodotTemplate.Levels
                 do
                 {
                     position = new Vector2(r.Next(480 - 2 * PlanetSize) + PlanetSize, r.Next(650 - 2 * PlanetSize) + PlanetSize);
-                    found = game.GetTree().GetNodesInGroup(Groups.Planet)
+                    found = game.GameField.GetTree().GetNodesInGroup(Groups.Planet)
                             .Cast<Planet>()
                             .Where(a => (a.Position - position).Length() < 100)
                             .Any();

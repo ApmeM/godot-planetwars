@@ -67,6 +67,8 @@ public partial class Planet : IMinimapElement, ISelectable
     {
         base._Process(delta);
 
+        var parent = this.GetParent().GetParent<Game>();
+
         if (this.dronesCountDirty)
         {
             this.dronesCountLabel.Text = this.dronesCount.ToString();

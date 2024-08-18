@@ -79,11 +79,8 @@ public partial class Game
             }
             else if (newConnection != null)
             {
-                newConnection.Active = true;
-                if (newConnection.To == null || newConnection.To == newConnection.From)
-                {
-                    newConnection.QueueFree();
-                }
+                MakeConnection(newConnection.PlayerId, newConnection.From, newConnection.To);
+                newConnection.QueueFree();
                 newConnection = null;
             }
 
@@ -127,5 +124,21 @@ public partial class Game
             this.achievementNotifications.UnlockAchievement("MyFirstAchievement");
             return;
         }
+    }
+
+    public void MakeConnection(int playerId, Planet from, Planet to)
+    {
+        if (to == null || to == from)
+        {
+            return;
+        }
+
+        var connection = PlanetConnectionScene.Instance<PlanetConnection>();
+        connection.PlayerId = playerId;
+        connection.DronesScene = this.DronesScene;
+        connection.From = from;
+        connection.To = to;
+        connection.Active = true;
+        this.GameField.AddChild(connection);
     }
 }
