@@ -3,7 +3,7 @@ using Godot;
 using GodotAnalysers;
 
 [SceneReference("Planet.tscn")]
-public partial class Planet : IMinimapElement, ISelectable
+public partial class Planet : IMinimapElement, ISelectable, IDoubleClickable
 {
     public bool VisibleOnBorder => true;
 
@@ -103,5 +103,19 @@ public partial class Planet : IMinimapElement, ISelectable
     public bool IsClicked(Vector2 position)
     {
         return this.planetNeutralSprite.GetRect().HasPoint(this.ToLocal(position));
+    }
+
+    public void DoubleClicked()
+    {
+        SpeedUp();
+    }
+
+    public void SpeedUp()
+    {
+        if (this.DronesCount >= this.GrowSpeed * 10)
+        {
+            this.DronesCount -= (int)(this.GrowSpeed * 10);
+            this.GrowSpeed++;
+        }
     }
 }

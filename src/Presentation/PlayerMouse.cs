@@ -31,13 +31,13 @@ public partial class PlayerMouse
             if (mouse.Doubleclick)
             {
                 var connection = this.GetTree().GetNodesInGroup(Groups.Selectable)
-                    .OfType<PlanetConnection>()
+                    .OfType<IDoubleClickable>()
                     .Where(a => a.PlayerId == this.PlayerId)
                     .Where(a => a.IsClicked(mouse.Position))
                     .FirstOrDefault();
                 if (connection != null)
                 {
-                    connection.QueueFree();
+                    connection.DoubleClicked();
                 }
             }
             else if (mouse.Pressed)

@@ -1,9 +1,17 @@
 using Godot;
 
-public interface ISelectable
-{
-    int PlayerId { get; }
-    bool Selected { get; set; }
 
+public interface IClickable{
+    int PlayerId { get; }
     bool IsClicked(Vector2 position);
+}
+
+public interface ISelectable : IClickable
+{
+    bool Selected { get; set; }
+}
+
+public interface IDoubleClickable : IClickable
+{
+    void DoubleClicked();
 }

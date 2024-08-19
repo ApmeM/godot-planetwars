@@ -81,17 +81,7 @@ public partial class SelectedPlanetDetails
 
     private void SpeedUp()
     {
-        var planet = this.Details as Planet;
-        if (planet == null)
-        {
-            return;
-        }
-
-        if (planet.DronesCount >= planet.GrowSpeed * 10)
-        {
-            planet.DronesCount -= (int)(planet.GrowSpeed * 10);
-            planet.GrowSpeed++;
-        }
+        (this.Details as Planet)?.SpeedUp();
     }
 
     private void DeleteConnection()

@@ -3,7 +3,7 @@ using Godot;
 using GodotAnalysers;
 
 [SceneReference("PlanetConnection.tscn")]
-public partial class PlanetConnection : ISelectable
+public partial class PlanetConnection : ISelectable, IDoubleClickable
 {
     private Planet from;
     private Planet to;
@@ -117,5 +117,10 @@ public partial class PlanetConnection : ISelectable
             }
         }
         return false;
+    }
+
+    public void DoubleClicked()
+    {
+        this.QueueFree();
     }
 }
