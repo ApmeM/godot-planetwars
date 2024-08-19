@@ -9,9 +9,6 @@ public partial class PlanetConnection : ISelectable, IDoubleClickable
     private Planet to;
     private bool pointsDirty = true;
 
-    [Export]
-    public PackedScene DronesScene;
-
     public Planet From
     {
         get => from;
@@ -33,8 +30,6 @@ public partial class PlanetConnection : ISelectable, IDoubleClickable
     }
 
     public int DronesToSend { get; set; } = 5;
-
-    public bool Active { get; set; }
 
     public int PlayerId { get; set; }
 
@@ -86,14 +81,9 @@ public partial class PlanetConnection : ISelectable, IDoubleClickable
             return;
         }
 
-        if (Active)
+        if (From.DronesCount > DronesToSend)
         {
-            if (From.DronesCount > DronesToSend)
-            {
-                var drones = this.DronesScene.Instance<Drones>();
-                this.GetParent().AddChild(drones);
-                drones.Go(From, To, From.DronesCount);
-            }
+            this.GetParent().GetParent<Game>().SendDrones(this.PlayerId, From, To, From.DronesCount);
         }
     }
 

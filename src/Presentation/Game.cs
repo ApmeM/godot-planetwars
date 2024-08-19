@@ -82,10 +82,20 @@ public partial class Game
 
         var connection = PlanetConnectionScene.Instance<PlanetConnection>();
         connection.PlayerId = playerId;
-        connection.DronesScene = this.DronesScene;
         connection.From = from;
         connection.To = to;
-        connection.Active = true;
         this.GameField.AddChild(connection);
+    }
+
+    public void SendDrones(int playerId, Planet from, Planet to, int count)
+    {
+        if (from.PlayerId != playerId)
+        {
+            return;
+        }
+
+        var drones = this.DronesScene.Instance<Drones>();
+        this.GameField.AddChild(drones);
+        drones.Go(from, to, count);
     }
 }
